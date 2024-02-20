@@ -1,12 +1,11 @@
-import {createBrowserRouter, redirect} from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import Layout from "./page/layout.jsx";
 import LoginPage from "./page/login.jsx";
 import Home from "./page/home.jsx";
 
-
 // eslint-disable-next-line react-refresh/only-export-components
 const CheckUser = () => {
-    if(!localStorage.getItem('access_token')) {
+    if (!localStorage.getItem('access_token')) {
         return redirect('/login')
     }
     return null
@@ -15,19 +14,20 @@ const CheckUser = () => {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Layout/>,
+        element: <Layout />,
         children: [
             {
                 path: "home",
-                element: <Home/>
+                element: <Home />
             },
         ],
         loader: CheckUser
     },
     {
         path: "login",
-        element: <LoginPage/>
+        element: <LoginPage />
     },
-])
+]
+)
 
 export default router
