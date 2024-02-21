@@ -11,7 +11,7 @@ export default function Home() {
     try {
       const { data } = await axios({
         method: "GET",
-        url: "http://localhost:3000/items",
+        url: "http://localhost:3000/pub/items",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
