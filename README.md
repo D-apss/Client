@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./server/pict/logo.png" width="150px" alt="Logo">
+  <img src="./client/public/logo.png" width="150px" alt="Logo">
 </div>
 
 -----
@@ -33,12 +33,17 @@
  - Start the server with npm start / nodemon in server.
  - Start the client with npm run dev.
 
+o> Install them using `npm install`.
+
  # External APIs
 o>  Midtrans
-Midtrans is integrated to handle payment transactions for Users top-ups. Visit the Midtrans documentation for more information on integrating Midtrans into your project / application. Visit the [Midtrans documentation](https://docs.midtrans.com) for more information on integrating Midtrans into your application.
+Midtrans is integrated to handle payment transactions for Users top-ups. Visit the Midtrans documentation for more information on integrating Midtrans into your project / application. 
+
+- Visit the [Midtrans documentation](https://docs.midtrans.com) for more information on integrating Midtrans into your application.
 
 # Note
 I'm really sorry for the project we made, Mokondo it still can't support mobile due to time. Maybe the mobile version is still coming soon
 
 
-# o>>> Explore the Project endpoints detailed below. <<<o
+
+# o>>> Explore the Project endpoints detailed below.
