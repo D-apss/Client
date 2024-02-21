@@ -41,5 +41,4 @@ Midtrans is integrated to handle payment transactions for Users top-ups. Visit t
 I'm really sorry for the project we made, Mokondo it still can't support mobile due to time. Maybe the mobile version is still coming soon
 
 
-
 # o>>> Explore the Project endpoints detailed below. <<<o
