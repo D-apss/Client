@@ -1,28 +1,78 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 export default function Home() {
+  const navigate = useNavigate();
+
+  const [itemData, setItemData] = useState([]);
+
+  async function fetchData() {
+    try {
+      const { data } = await axios({
+        method: "GET",
+        url: "http://localhost:3000/items",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      });
+
+      setItemData(data);
+    } catch (error) {
+      console.log(error.data);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function handleButtomBid(id) {
+    navigate(`/bid/${id}`);
+  }
+
   return (
-    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-      <h2 className="text-4xl tracking-widest text-white text-center uppercase font-bold">
-        <span className="block">Choose your Hero</span>
-      </h2>
-      <div className="mt-10 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <div className="group">
-          <div className="relative">
-            <div className="w-full">
-              <img src="https://img.mobilelegends.com/group1/M00/00/B2/Cq2IxmAKtDOAe9QQAAIoQFvuZwA933.jpg"
-                className="w-full h-full object-center object-cover opacity-70 group-hover:opacity-100 rounded-md" />
-              <div className="absolute bottom-0 px-2 py-4 flex flex-col bg-gradient-to-t from-black w-full rounded-md">
-                <p className="text-xl text-white uppercase inline-block align-start text-left pl-2 font-bold">Paquito</p>
-                <p className="text-md text-white inline-block align-start text-left pl-2">Fighter</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-center items-center h-16">
-            <button
-              className="px-3 py-2 text-gray-900 bg-gray-100 rounded-sm focus:outline-none focus:ring focus:ring-gray-500 uppercase tracking-widest font-bold">Choose
-              Hero</button>
+    <>
+      <div className="h-screen relative">
+        <div className="absolute inset-0">
+          <img className="w-full h-full object-cover" src="/250.jpeg" alt="" />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="container text-center">
+            <h1 className="text-7xl text-white font-extralight font-contrail-one">
+              Welcome to Auto Bid
+            </h1>
+            <p className="text-white font-extralight font-contrail-one">
+              Where you can find the best car
+            </p>
           </div>
         </div>
       </div>
-    </div>
+      <div className="container mx-auto mt-20 mb-20 flex justify-center">
+        {itemData.map((item, index) => (
+          <div
+            key={index}
+            className="max-w-md rounded overflow-hidden shadow-lg mx-4"
+          >
+            <img className="w-full" src={item.imageUrl} alt={item.name} />
+            <div className="px-6 py-4">
+              <div className="font-bold text-xl mb-2">{item.name}</div>
+              <p className="text-gray-700 text-base">{item.description}</p>
+              <p className="text-gray-700 text-base">{item.price}</p>
+            </div>
+            <div className="px-6 py-4">
+              <button
+                onClick={() => {
+                  handleButtomBid(item.id);
+                }}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
+                Start Bid
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
