@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function Login() {
   const navigate = useNavigate();
@@ -31,8 +32,31 @@ function Login() {
       localStorage.setItem("access_token", response.data.access_token);
 
       navigate("/");
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "You Have Successfully logged in!",
+      });
     } catch (error) {
       console.log(error.response.data);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        const errorMessage = error.response.data.message;
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: errorMessage,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to Login!",
+        });
+      }
     }
   }
 
