@@ -1,8 +1,8 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
-import Layout from "./page/layout.jsx";
-import LoginPage from "./page/login.jsx";
-import Home from "./page/home.jsx";
-import Register from "./page/register.jsx";
+import Layout from "./page/Layout.jsx";
+import LoginPage from "./page/Login.jsx";
+import Home from "./page/Home.jsx";
+import Register from "./page/Register.jsx";
 import BidPage from "./page/BidPage.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
