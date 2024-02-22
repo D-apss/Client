@@ -17,24 +17,8 @@ export default function Navbar() {
             <div className="flex flex-wrap items-center">
               <div className="w-auto mr-14">
                 <Link to="/">
-                  <img src="acros-assets/logo/logo-acros-white.svg" alt="" />
+                  <img src="/logo.png" alt="" className="w-8 h-8"/>
                 </Link>
-              </div>
-              <div className="w-auto hidden lg:block">
-                <ul className="flex items-center">
-                  <li className="font-heading mr-12 text-white hover:text-gray-200">
-                    <Link to="#">ewe</Link>
-                  </li>
-                  <li className="font-heading mr-12 text-white hover:text-gray-200">
-                    <Link to="#">Bebas</Link>
-                  </li>
-                  <li className="font-heading mr-12 text-white hover:text-gray-200">
-                    <Link to="#">isi apa aja</Link>
-                  </li>
-                  <li className="font-heading mr-12 text-white hover:text-gray-200">
-                    <Link to="#">Isi terserah</Link>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
