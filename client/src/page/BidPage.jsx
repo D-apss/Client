@@ -177,10 +177,6 @@ export default function BidPage() {
                       ? `$${highestData[0].amount}`
                       : "No bids yet"}
                   </p>
-                  <p className="text-md">
-                    Bidder:{" "}
-                    {highestData.length > 0 ? highestData[0].bidderName : "N/A"}
-                  </p>
                 </div>
               </div>
               {/* Bid submission form */}
