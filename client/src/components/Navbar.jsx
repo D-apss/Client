@@ -39,40 +39,18 @@ export default function Navbar() {
             </div>
           </div>
           <div className="w-auto hidden lg:flex items-center">
-            <a
+            <Link
+              to="/mybid"
               className="inline-block mr-12 font-heading font-medium text-base text-white hover:text-gray-200"
-              href="#"
             >
-              Log in
-            </a>
+              My Bid
+            </Link>
             <button
               onClick={doLogout}
               className="inline-block py-4 px-8 font-heading font-medium text-base text-white bg-green-500 hover:bg-green-600 border border-green-500 hover:border-green-600 rounded-sm transition duration-200"
             >
               Logout
             </button>
-          </div>
-          <div className="w-auto lg:hidden">
-            <a
-              className="navbar-burger inline-flex w-14 h-14 justify-center items-center bg-gray-500 hover:bg-gray-600 rounded-full"
-              href="#"
-            >
-              <svg
-                width="20"
-                height="10"
-                viewBox="0 0 20 10"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19 9H1M19 1H1"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></path>
-              </svg>
-            </a>
           </div>
         </div>
       </nav>
