@@ -4,6 +4,29 @@ import axios from "axios";
 
 export default function MyBid() {
   const [myBidData, setMyBidData] = useState([]);
+  
+  const handleCheckout = async (bidItemId) => {
+    try {
+      const { data } = await axios.get(`http://localhost:3000/pub/payment/midtrans/initiate/${bidItemId}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        }
+      });
+      window.snap.pay(data.transactionToken, {
+        onSuccess: async function (result) {
+          alert("Payment success!");
+          console.log(result);
+          await axios.patch(
+            `http://localhost:3000/pub/users/me/upgrade/${bidItemId}`,
+            { OrderId: data.OrderId },
+            { headers: { Authorization: "Bearer " + localStorage.getItem("access_token") } }
+          );
+        },
+      });
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+    }
+  };
 
   async function fethData() {
     const token = localStorage.getItem("access_token");
@@ -53,7 +76,7 @@ export default function MyBid() {
             <p className="text-red-500 font-bold">
               Bid Amount: ${bidItem.amount}
             </p>
-            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">
+            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200" onClick={() => handleCheckout(bidItem.id)}>
               Pay
             </button>
           </div>
