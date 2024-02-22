@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:3000");
@@ -18,14 +16,12 @@ export default function BidPage() {
       ItemId: id,
       UserId: "",
    });
+   const [isAdmin, setIsAdmin] = useState(false);
+   const [bidClosed, setBidClosed] = useState(false);
 
    const fetchItemById = async () => {
       try {
-         const response = await axios.get(`http://localhost:3000/pub/items/${id}`, {
-            headers: {
-               Authorization: "Bearer " + localStorage.getItem("access_token"),
-            },
-         });
+         const response = await axios.get(`http://localhost:3000/pub/items/${id}`);
          const { name, description, imageUrl, price } = response.data;
          setItemBidData({ name, description, imageUrl, price });
       } catch (error) {
@@ -46,7 +42,6 @@ export default function BidPage() {
          }));
          setHighestData(formattedData);
          socket.emit("newBid", formattedData[0].amount);
-
       } catch (error) {
          console.error(error.response.data);
       }
@@ -55,6 +50,7 @@ export default function BidPage() {
    useEffect(() => {
       fetchItemById();
       fetchHighestById();
+      userById();
    }, [id]);
 
    const handleInputChange = (event) => {
@@ -76,6 +72,37 @@ export default function BidPage() {
          console.error(error.response.data);
       }
    };
+
+   async function userById() {
+      try {
+         const userId = localStorage.getItem("user_id")
+         const response = await axios.get(`http://localhost:3000/pub/user/${userId}`);
+
+         console.log("User data:", response.data);
+
+         if (response.data.role === "Admin") {
+            setIsAdmin(true);
+         } else {
+            setIsAdmin(false);
+         }
+      } catch (error) {
+         console.error("Error fetching user data:", error.response.data);
+      }
+   }
+
+   const handleCloseBid = async () => {
+      try {
+         await axios.post(`http://localhost:3000/closeBid`, {}, {
+            headers: {
+               Authorization: "Bearer " + localStorage.getItem("access_token"),
+            },
+         });
+         setBidClosed(true);
+      } catch (error) {
+         console.error(error.response.data);
+      }
+   };
+
    useEffect(() => {
       socket.on("message", (msg) => {
          console.log(msg);
@@ -93,9 +120,15 @@ export default function BidPage() {
          }
          console.log(newCount);
       });
+
+      socket.on("bidClosed", (isClosed) => {
+         setBidClosed(isClosed);
+      });
+
       return () => {
          socket.off("message");
          socket.off("highestBid");
+         socket.off("bidClosed");
       };
    }, []);
 
@@ -113,14 +146,23 @@ export default function BidPage() {
             <p>Bidder: {highestData?.length > 0 ? highestData[0].bidderName : "No bids yet"}</p>
          </div>
          <div className="submit-bid">
-            <form onSubmit={handleBidSubmit}>
-               <label>
-                  Bid Amount:
-                  <input type="number" name="amount" value={bidInput.amount} onChange={handleInputChange} />
-               </label>
-               <button type="submit">Place Bid</button>
-            </form>
+            {!bidClosed ? (
+               <form onSubmit={handleBidSubmit}>
+                  <label>
+                     Bid Amount:
+                     <input type="number" name="amount" value={bidInput.amount} onChange={handleInputChange} />
+                  </label>
+                  <button type="submit">Place Bid</button>
+               </form>
+            ) : (
+               <p>BID CLOSED!</p>
+            )}
          </div>
+         {isAdmin && (
+            <div className="close-bid">
+               <button onClick={handleCloseBid}>Close Bid</button>
+            </div>
+         )}
       </div>
    );
 }

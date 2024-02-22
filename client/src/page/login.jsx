@@ -5,7 +5,6 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-// Komponen bernama LoginPage dengan PascalCase
 export default function LoginPage() {
   const navigate = useNavigate();
   const [loginInput, setLoginInput] = useState({
@@ -59,7 +58,10 @@ export default function LoginPage() {
         data: loginInput,
       });
       console.log(response);
-      localStorage.setItem("access_token", response.data.access_token);
+      const { id, access_token } = response.data;
+      localStorage.setItem("user_id", id);
+      localStorage.setItem("access_token", access_token);
+      console.log(response.data);
       navigate("/");
     } catch (error) {
       console.error("Error updating job:", error);
